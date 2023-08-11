@@ -15,10 +15,4 @@ https://opabhig.github.io/Frontend-test-Stopwatch.github.io/
 # Video:
 https://www.dropbox.com/scl/fi/1nfh3ga1284d1wilryrww/README.md-index.html-2023-07-26-13-33-04.mp4?rlkey=es5tp69o7flavqkowo3emxwg5&dl=0
 
-![Screenshot 2023-07-26 133856](https://github.com/OpAbhiG/Frontend-test-Stopwatch/assets/110295591/5f2ef3be-2400-4f32-a8b2-002a6bbdd31e)
-
-
-
-
-
-
+![Screenshot 2023-08-11 180952](https://github.com/OpAbhiG/Frontend-test-Stopwatch.github.io/assets/110295591/2b5c4f89-eb1b-444c-83c4-8a10dd0a2534)
