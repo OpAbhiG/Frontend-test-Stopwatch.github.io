@@ -1,5 +1,7 @@
 ## Frontend test: Stopwatch
 
+Our HTML code represents a basic web page for a stopwatch application. It includes the following components:
+
 Create a stopwatch app. Use ONLY vanilla javascript, no libraries or frameworks are allowed for Javascript (you can use any CSS framework like Bootstrap).
 Refer to the question doc for more details:
 Question Doc
