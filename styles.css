@@ -1,4 +1,4 @@
-*,
+/* Original styles */
 *:before,
 *:after {
     padding: 0;
@@ -26,7 +26,7 @@ body {
 
 .timer-display {
     position: relative;
-    width: 92%;
+    width: 80%;
     background: #fff;
     left: 4%;
     font-family: 'Roboto mono', monospace;
@@ -68,7 +68,29 @@ body {
     background-color: #f7df1e;
 }
 
-
 .buttons button:hover {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
+}
+
+/* Additional styles for responsiveness */
+@media only screen and (max-width: 600px) {
+    .container {
+        width: 80%;
+        min-width: unset;
+    }
+
+    .timer-display {
+        font-size: 24px;
+        padding: 20px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        margin: 20px auto 0 auto;
+    }
+
+    .buttons button {
+        width: 100%;
+        margin-bottom: 10px auto;
+    }
 }
