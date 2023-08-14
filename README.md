@@ -7,7 +7,7 @@ Refer to the question doc for more details:
 
 # Question Doc
 
-Your project will be evaluated by the n following parameters -
+Project will be evaluated by the n following parameters -
 Creativity and design (CSS and others) (Max Score 10)
 Code (comments, structuring, functions/variable namings) (Max Score 10)
 All features (Max Score 30)
