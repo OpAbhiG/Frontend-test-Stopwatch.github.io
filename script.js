@@ -1,47 +1,50 @@
-const apiUrl = "https://fakestoreapi.com/products"; // Fake Store API URL
-let products = [];
+// API URL for fetching products
+const apiUrl = "https://fakestoreapi.com/products";
 
-// Fetch products from the API
+// DOM Elements
+const productContainer = document.getElementById("product-container");
+const searchInput = document.getElementById("search");
+
+// Fetch products from API
 async function fetchProducts() {
   try {
     const response = await fetch(apiUrl);
-    products = await response.json();
+    const products = await response.json();
     displayProducts(products);
+    return products;
   } catch (error) {
     console.error("Error fetching products:", error);
-    document.getElementById("product-list").innerHTML = `
-      <p>Failed to load products. Please try again later.</p>`;
   }
 }
 
 // Display products on the page
-function displayProducts(productList) {
-  const productListContainer = document.getElementById("product-list");
-  productListContainer.innerHTML = ""; // Clear existing products
-
-  productList.forEach((product) => {
+function displayProducts(products) {
+  productContainer.innerHTML = ""; // Clear container
+  products.forEach((product) => {
     const productCard = document.createElement("div");
     productCard.classList.add("product-card");
 
     productCard.innerHTML = `
       <img src="${product.image}" alt="${product.title}">
       <h3>${product.title}</h3>
-      <div class="price">$${product.price.toFixed(2)}</div>
-      <a href="#" class="store-link" target="_blank">Buy Now</a>
+      <p>$${product.price}</p>
+      <button onclick="alert('Buy Now clicked for ${product.title}')">Buy Now</button>
     `;
-
-    productListContainer.appendChild(productCard);
+    productContainer.appendChild(productCard);
   });
 }
 
 // Filter products based on search input
-function filterProducts() {
-  const searchValue = document.getElementById("search").value.toLowerCase();
+async function filterProducts() {
+  const searchQuery = searchInput.value.toLowerCase();
+  const products = await fetchProducts();
+
   const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchValue)
+    product.title.toLowerCase().includes(searchQuery)
   );
+
   displayProducts(filteredProducts);
 }
 
-// Load products on page load
-document.addEventListener("DOMContentLoaded", fetchProducts);
+// Initialize products on page load
+fetchProducts();
