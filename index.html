@@ -1,24 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stopwatch</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Price Comparison</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="timer-display">
-            00 : 00 : 00 : 000
-        </div>
-        <div class="buttons">
-            <button id="start-timer">Start</button>
-            <button id="pause-timer">Puse</button>
-            <button id="reset-timer">Reset</button>
-        </div>
+  <header>
+    <h1>Price Comparison Website</h1>
+    <p>Find the best deals on products from multiple stores!</p>
+  </header>
+  <main>
+    <div class="search-container">
+      <input type="text" id="search" placeholder="Search for products..." oninput="filterProducts()">
     </div>
-    <script src="script.js"></script>
-    
+    <div id="product-list" class="product-list">
+      <!-- Products will be loaded here dynamically -->
+    </div>
+  </main>
+  <footer>
+    <p>© 2024 Price Comparison | Powered by Open APIs</p>
+  </footer>
+  <script src="script.js"></script>
 </body>
 </html>
