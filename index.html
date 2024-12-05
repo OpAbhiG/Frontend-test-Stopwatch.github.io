@@ -3,25 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Price Comparison</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Price Comparison Website</title>
+  <style>
+    /* CSS Styles */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    header {
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    header input {
+      width: 90%;
+      max-width: 600px;
+      padding: 10px;
+      margin-top: 10px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .product-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .product-card {
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 200px;
+      text-align: center;
+      padding: 10px;
+      background-color: #f9f9f9;
+    }
+
+    .product-card img {
+      max-width: 100%;
+      height: auto;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+
+    .product-card h3 {
+      font-size: 1rem;
+      margin: 10px 0;
+    }
+
+    .product-card p {
+      font-size: 1rem;
+      color: green;
+      margin: 10px 0;
+    }
+
+    .product-card button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .product-card button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <h1>Price Comparison Website</h1>
-    <p>Find the best deals on products from multiple stores!</p>
+    <h1>Price Comparison</h1>
+    <input type="text" id="search" placeholder="Search for products..." oninput="filterProducts()">
   </header>
   <main>
-    <div class="search-container">
-      <input type="text" id="search" placeholder="Search for products..." oninput="filterProducts()">
-    </div>
-    <div id="product-list" class="product-list">
-      <!-- Products will be loaded here dynamically -->
+    <div id="product-container" class="product-container">
+      <!-- Products will be dynamically loaded here -->
     </div>
   </main>
-  <footer>
-    <p>© 2024 Price Comparison | Powered by Open APIs</p>
-  </footer>
-  <script src="script.js"></script>
+  <script>
+    // JavaScript Code
+
+    // API URL for fetching products
+    const apiUrl = "https://fakestoreapi.com/products";
+
+    // DOM Elements
+    const productContainer = document.getElementById("product-container");
+    const searchInput = document.getElementById("search");
+
+    // Fetch products from API
+    async function fetchProducts() {
+      try {
+        const response = await fetch(apiUrl);
+        const products = await response.json();
+        displayProducts(products);
+        return products;
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    }
+
+    // Display products on the page
+    function displayProducts(products) {
+      productContainer.innerHTML = ""; // Clear container
+      products.forEach((product) => {
+        const productCard = document.createElement("div");
+        productCard.classList.add("product-card");
+
+        productCard.innerHTML = `
+          <img src="${product.image}" alt="${product.title}">
+          <h3>${product.title}</h3>
+          <p>$${product.price}</p>
+          <button onclick="alert('Buy Now clicked for ${product.title}')">Buy Now</button>
+        `;
+        productContainer.appendChild(productCard);
+      });
+    }
+
+    // Filter products based on search input
+    async function filterProducts() {
+      const searchQuery = searchInput.value.toLowerCase();
+      const products = await fetchProducts();
+
+      const filteredProducts = products.filter((product) =>
+        product.title.toLowerCase().includes(searchQuery)
+      );
+
+      displayProducts(filteredProducts);
+    }
+
+    // Initialize products on page load
+    fetchProducts();
+  </script>
 </body>
 </html>
