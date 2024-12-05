@@ -1,26 +1,47 @@
-// API URL for fetching products
-const apiUrl = "https://fakestoreapi.com/products";
+// API URL for fetching product data (You can use any public API, such as Fake Store API)
+const apiUrl = 'https://fakestoreapi.com/products';
 
-// DOM Elements
-const productContainer = document.getElementById("product-container");
-const searchInput = document.getElementById("search");
+// Function to search for products
+async function searchProducts() {
+  const query = document.getElementById("search").value.trim();
 
-// Fetch products from API
-async function fetchProducts() {
+  if (query === "") {
+    alert("Please enter a product name to search!");
+    return;
+  }
+
+  // Clear previous results
+  document.getElementById("results").innerHTML = "Loading...";
+
+  // Fetch the products data
   try {
     const response = await fetch(apiUrl);
     const products = await response.json();
-    displayProducts(products);
-    return products;
+
+    // Filter products based on the search query
+    const filteredProducts = products.filter(product => 
+      product.title.toLowerCase().includes(query.toLowerCase())
+    );
+
+    displayResults(filteredProducts);
   } catch (error) {
-    console.error("Error fetching products:", error);
+    console.error('Error fetching product data:', error);
+    document.getElementById("results").innerHTML = "Error fetching product data.";
   }
 }
 
-// Display products on the page
-function displayProducts(products) {
-  productContainer.innerHTML = ""; // Clear container
-  products.forEach((product) => {
+// Function to display product results
+function displayResults(products) {
+  const resultsDiv = document.getElementById("results");
+  resultsDiv.innerHTML = '';  // Clear any previous results
+
+  if (products.length === 0) {
+    resultsDiv.innerHTML = "No products found!";
+    return;
+  }
+
+  // Create a card for each product
+  products.forEach(product => {
     const productCard = document.createElement("div");
     productCard.classList.add("product-card");
 
@@ -28,23 +49,9 @@ function displayProducts(products) {
       <img src="${product.image}" alt="${product.title}">
       <h3>${product.title}</h3>
       <p>$${product.price}</p>
-      <button onclick="alert('Buy Now clicked for ${product.title}')">Buy Now</button>
+      <a href="${product.url}" target="_blank">View Product</a>
     `;
-    productContainer.appendChild(productCard);
+
+    resultsDiv.appendChild(productCard);
   });
 }
-
-// Filter products based on search input
-async function filterProducts() {
-  const searchQuery = searchInput.value.toLowerCase();
-  const products = await fetchProducts();
-
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchQuery)
-  );
-
-  displayProducts(filteredProducts);
-}
-
-// Initialize products on page load
-fetchProducts();
