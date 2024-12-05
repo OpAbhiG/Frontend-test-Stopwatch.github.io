@@ -1,6 +1,8 @@
-body, h1, input, button {
+/* General Reset */
+* {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -11,51 +13,65 @@ body {
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
+  color: #333;
 }
 
+/* Header */
 header {
   background-color: #007bff;
   color: white;
   padding: 20px;
+  width: 100%;
   text-align: center;
+  border-radius: 0 0 15px 15px;
 }
 
+/* Search input and button */
 header input {
-  padding: 10px;
-  width: 300px;
+  padding: 12px 15px;
+  width: 70%;
+  max-width: 400px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  margin-top: 10px;
+  font-size: 16px;
 }
 
 header button {
-  padding: 10px 15px;
+  padding: 12px 20px;
   background-color: #0056b3;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-left: 10px;
+  font-size: 16px;
 }
 
-button:hover {
+header button:hover {
   background-color: #003f73;
 }
 
+/* Results Container */
 .results {
   margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
-  justify-content: center;
+  justify-items: center;
+  padding: 20px;
+  width: 100%;
 }
 
+/* Product Card */
 .product-card {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 220px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
   text-align: center;
+  max-width: 250px;
 }
 
 .product-card img {
@@ -66,19 +82,53 @@ button:hover {
 }
 
 .product-card h3 {
-  margin: 10px 0;
-  font-size: 1.2rem;
+  margin: 15px 0;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .product-card p {
-  color: green;
+  color: #28a745;
   font-size: 1rem;
+  margin-bottom: 10px;
 }
 
 .product-card a {
   text-decoration: none;
   color: #007bff;
   font-weight: bold;
+  display: inline-block;
   margin-top: 10px;
-  display: block;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  header {
+    padding: 15px;
+  }
+
+  header input,
+  header button {
+    width: 80%;
+    font-size: 14px;
+  }
+
+  .product-card {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  header input,
+  header button {
+    width: 90%;
+  }
+
+  .product-card {
+    max-width: 180px;
+  }
+
+  .results {
+    grid-template-columns: 1fr;
+  }
 }
