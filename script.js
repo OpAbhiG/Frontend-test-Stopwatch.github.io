@@ -1,49 +1,47 @@
-let [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
-let timeRef = document.querySelector(".timer-display");
-let int = null;
+const apiUrl = "https://fakestoreapi.com/products"; // Fake Store API URL
+let products = [];
 
-document.getElementById("start-timer").addEventListener("click", () => {
-    if(int !== null) {
-        clearInterval(int);
-    }
-    int = setInterval(displayTimer, 10);
-});
-
-document.getElementById("pause-timer").addEventListener("click", () => {
-    clearInterval(int);
-});
-
-document.getElementById("reset-timer").addEventListener("click", () => {
-    clearInterval(int);
-    [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
-    timeRef.innerHTML = "00 : 00 : 00 : 000 ";
-}); 
-
-function displayTimer() {
-    milliseconds += 10;
-    if(milliseconds == 1000) {
-        milliseconds = 0;
-        seconds++;
-        if(seconds == 60) {
-            seconds = 0;
-            minutes++;
-            if(minutes == 60) {
-                minutes = 0;
-                hours++;
-            }
-        }
-    }
-
-    let h = hours < 10 ? "0" + hours : hours;
-    let m = minutes < 10 ? "0" + minutes : minutes;
-    let s = seconds < 10 ? "0" + seconds : seconds;
-    let ms = 
-        milliseconds < 10
-        ? "00" + milliseconds
-        : milliseconds < 100
-        ? "0" + milliseconds
-        : milliseconds;
-
-    timeRef.innerHTML = `${h} : ${m} : ${s} : ${ms}`;
-
+// Fetch products from the API
+async function fetchProducts() {
+  try {
+    const response = await fetch(apiUrl);
+    products = await response.json();
+    displayProducts(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    document.getElementById("product-list").innerHTML = `
+      <p>Failed to load products. Please try again later.</p>`;
+  }
 }
+
+// Display products on the page
+function displayProducts(productList) {
+  const productListContainer = document.getElementById("product-list");
+  productListContainer.innerHTML = ""; // Clear existing products
+
+  productList.forEach((product) => {
+    const productCard = document.createElement("div");
+    productCard.classList.add("product-card");
+
+    productCard.innerHTML = `
+      <img src="${product.image}" alt="${product.title}">
+      <h3>${product.title}</h3>
+      <div class="price">$${product.price.toFixed(2)}</div>
+      <a href="#" class="store-link" target="_blank">Buy Now</a>
+    `;
+
+    productListContainer.appendChild(productCard);
+  });
+}
+
+// Filter products based on search input
+function filterProducts() {
+  const searchValue = document.getElementById("search").value.toLowerCase();
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchValue)
+  );
+  displayProducts(filteredProducts);
+}
+
+// Load products on page load
+document.addEventListener("DOMContentLoaded", fetchProducts);
