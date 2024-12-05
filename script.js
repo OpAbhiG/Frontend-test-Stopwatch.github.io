@@ -1,8 +1,16 @@
-// API URL for fetching product data (You can use any public API, such as Fake Store API)
-const apiUrl = 'https://fakestoreapi.com/products';
+// Fake product data for demonstration (Replace with actual API calls later)
+const amazonProducts = [
+  { id: 1, title: "Laptop", price: 45000, image: "https://example.com/laptop.jpg", url: "https://www.amazon.in/dp/B08DLXYWTG" },
+  { id: 2, title: "Smartphone", price: 20000, image: "https://example.com/smartphone.jpg", url: "https://www.amazon.in/dp/B08DLXYWTG" },
+];
 
-// Function to search for products
-async function searchProducts() {
+const flipkartProducts = [
+  { id: 1, title: "Laptop", price: 46000, image: "https://example.com/laptop.jpg", url: "https://www.flipkart.com" },
+  { id: 2, title: "Smartphone", price: 19000, image: "https://example.com/smartphone.jpg", url: "https://www.flipkart.com" },
+];
+
+// Function to search for products from both Amazon and Flipkart
+function searchProducts() {
   const query = document.getElementById("search").value.trim();
 
   if (query === "") {
@@ -13,21 +21,19 @@ async function searchProducts() {
   // Clear previous results
   document.getElementById("results").innerHTML = "Loading...";
 
-  // Fetch the products data
-  try {
-    const response = await fetch(apiUrl);
-    const products = await response.json();
+  // Filter products from both Amazon and Flipkart
+  const filteredAmazonProducts = amazonProducts.filter(product => 
+    product.title.toLowerCase().includes(query.toLowerCase())
+  );
 
-    // Filter products based on the search query
-    const filteredProducts = products.filter(product => 
-      product.title.toLowerCase().includes(query.toLowerCase())
-    );
+  const filteredFlipkartProducts = flipkartProducts.filter(product => 
+    product.title.toLowerCase().includes(query.toLowerCase())
+  );
 
-    displayResults(filteredProducts);
-  } catch (error) {
-    console.error('Error fetching product data:', error);
-    document.getElementById("results").innerHTML = "Error fetching product data.";
-  }
+  // Combine the results
+  const combinedResults = [...filteredAmazonProducts, ...filteredFlipkartProducts];
+
+  displayResults(combinedResults);
 }
 
 // Function to display product results
@@ -48,7 +54,7 @@ function displayResults(products) {
     productCard.innerHTML = `
       <img src="${product.image}" alt="${product.title}">
       <h3>${product.title}</h3>
-      <p>$${product.price}</p>
+      <p>₹${product.price}</p>
       <a href="${product.url}" target="_blank">View Product</a>
     `;
 
