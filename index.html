@@ -3,17 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Price Comparison Website</title>
+  <title>Price Comparison</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
     <h1>Price Comparison</h1>
-    <input type="text" id="search" placeholder="Search for products..." oninput="filterProducts()">
+    <input type="text" id="search" placeholder="Search for products...">
+    <button onclick="searchProducts()">Search</button>
   </header>
   <main>
-    <div id="product-container" class="product-container">
-      <!-- Products will be dynamically loaded here -->
+    <div id="results" class="results">
+      <!-- Product results will appear here -->
     </div>
   </main>
   <script src="script.js"></script>
