@@ -3,22 +3,144 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product Price Comparison: Flipkart vs Amazon</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Unique Stopwatch</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      color: white;
+    }
+
+    .stopwatch {
+      text-align: center;
+      padding: 20px;
+      border-radius: 20px;
+      background: #222;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .time {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      font-weight: bold;
+      color: white;
+      background: #4facfe;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    button:active {
+      transform: scale(1);
+    }
+
+    .laps {
+      margin-top: 10px;
+      max-height: 150px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    .lap {
+      padding: 5px 10px;
+      background: #333;
+      border-radius: 5px;
+      margin-bottom: 5px;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Product Price Comparison</h1>
-    <input type="text" id="search" placeholder="Search for products..." />
-    <button onclick="searchProducts()">Search</button>
-  </header>
-
-  <main>
-    <div id="results" class="results">
-      <!-- Search results will be dynamically loaded here -->
+  <div class="stopwatch">
+    <div class="time" id="time">00:00:00.000</div>
+    <div class="buttons">
+      <button id="start-stop">Start</button>
+      <button id="reset" disabled>Reset</button>
+      <button id="lap" disabled>Lap</button>
     </div>
-  </main>
+    <div class="laps" id="laps"></div>
+  </div>
 
-  <script src="script.js"></script>
+  <script>
+    let startTime, elapsedTime = 0, timerInterval;
+    const timeDisplay = document.getElementById('time');
+    const lapsContainer = document.getElementById('laps');
+    const startStopButton = document.getElementById('start-stop');
+    const resetButton = document.getElementById('reset');
+    const lapButton = document.getElementById('lap');
+
+    function formatTime(ms) {
+      const date = new Date(ms);
+      const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+      const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+      const milliseconds = String(date.getMilliseconds()).padStart(3, '0');
+      return `${minutes}:${seconds}.${milliseconds}`;
+    }
+
+    function updateDisplay() {
+      const now = Date.now();
+      elapsedTime = now - startTime;
+      timeDisplay.textContent = formatTime(elapsedTime);
+    }
+
+    startStopButton.addEventListener('click', () => {
+      if (timerInterval) {
+        // Stop
+        clearInterval(timerInterval);
+        timerInterval = null;
+        elapsedTime += Date.now() - startTime;
+        startStopButton.textContent = 'Start';
+        resetButton.disabled = false;
+        lapButton.disabled = true;
+      } else {
+        // Start
+        startTime = Date.now() - elapsedTime;
+        timerInterval = setInterval(updateDisplay, 10);
+        startStopButton.textContent = 'Stop';
+        resetButton.disabled = true;
+        lapButton.disabled = false;
+      }
+    });
+
+    resetButton.addEventListener('click', () => {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      elapsedTime = 0;
+      timeDisplay.textContent = '00:00:00.000';
+      startStopButton.textContent = 'Start';
+      resetButton.disabled = true;
+      lapButton.disabled = true;
+      lapsContainer.innerHTML = '';
+    });
+
+    lapButton.addEventListener('click', () => {
+      const lapTime = document.createElement('div');
+      lapTime.textContent = formatTime(elapsedTime);
+      lapTime.className = 'lap';
+      lapsContainer.appendChild(lapTime);
+    });
+  </script>
 </body>
 </html>
